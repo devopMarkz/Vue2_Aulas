@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <input type="text" v-model.lazy="userLogin">
+
+        <ul>
+            <li v-for="(valor, chave) in userGithub">{{chave}} : {{valor}}</li>
+        </ul>
+
+        <button @click="iterarSobreContador()">Contador</button>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                userLogin: '',
+                userGithub: {
+                }
+            },
+            methods: {
+                buscarDadosGithub(userLogin){
+                    fetch(`https://api.github.com/users/${userLogin}`)
+                    .then(response => response.json())
+                    .then(data => this.userGithub = data);
+                },
+                iterarSobreContador(){
+                    this.contador++;
+                }
+            },
+            watch: {
+                userLogin(){
+                    this.buscarDadosGithub(this.userLogin);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

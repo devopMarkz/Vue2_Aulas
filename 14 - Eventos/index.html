@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+
+        <formulario-pessoa @emissao-pessoa="receberDados"></formulario-pessoa>
+
+        <ul>
+            <li v-for="pessoa in pessoas">{{pessoa.nome}}</li>
+        </ul>
+
+    </div>
+
+    <script type="module">
+
+        import FormularioPessoa from './FormularioPessoa.js'
+
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                pessoas: [
+
+                ]
+            },
+            methods: {
+                receberDados(pessoa){
+                    this.pessoas.push(pessoa);
+                }
+            },
+            components: {
+                FormularioPessoa: FormularioPessoa
+            }
+        });
+
+    </script>
+
+</body>
+</html>

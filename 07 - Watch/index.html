@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+
+    <style>
+        #paises{
+            background-color: rgb(86, 86, 122);
+            color: white;
+            font-weight: bold;
+            padding: 5px;
+            outline: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <select name="paises" id="paises" v-model="selecionado">
+            <option v-for="(pais, key, index) in paises" :value="pais.name.common">
+                {{pais.name.common}}
+            </option>
+        </select>
+
+        <h2>{{capital}}</h2>
+
+        <button @click="contador++">Contador</button>
+        <p>{{contador}}</p>
+
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                selecionado: '',
+                capital: 'Padrão',
+                paises: [],
+                contador: 0
+            },
+            methods: {
+                buscarPaises(){
+                    fetch("https://restcountries.com/v3.1/independent?status=true&fields=capital,name")
+                    .then(response => response.json())
+                    .then(items => this.paises = items);
+                }
+            },
+            watch: {
+                selecionado(){
+                    let capitalAtual = this.paises.find(item => item.name.common === this.selecionado);
+                    this.capital = capitalAtual.capital[0];
+                }
+            },
+            created(){
+                this.buscarPaises();
+            },
+            updated(){
+                alert("DOM Atualizado!");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+
+    <style>
+        .back-color{
+            background-color: green;
+        }
+        .blue-color{
+            background-color: rgb(255, 0, 0);
+        }
+        .back-color:hover{
+            background-color: grey;
+        }
+        .blue-color:hover{
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p>{{initial}}</p>
+        <button @click.once="requisicao()">Realizar Requisição</button>
+        <div>Total price = R$ {{total}} </div>
+        <table>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>price</th>
+                <th>description</th>
+                <th>category</th>
+            </tr>
+            <tr 
+                v-for="item in dados" 
+                :key="item.id" 
+                :class="item.price > 100? 'back-color' : 'blue-color'" 
+                @click.prevent="imprimir(item.description)"
+            >
+                <td>{{item.id}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.category}}</td>
+                <td><button @click="apagar(item.id)">Apagar</button></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                initial: "hello world!",
+                dados: [],
+                total: 0
+            },
+            methods: {
+    requisicao() {
+        const request = fetch("https://fakestoreapi.com/products");
+
+        request.then(dados => dados.json())
+        .then(dados => {
+            this.dados = dados;
+            this.mudarFrase(this.dados, 'the', 'BANANA');
+            this.calcularTotal();
+        });
+    },
+    calcularTotal(){
+        let sum = 0;
+        this.dados.forEach(element => {
+            sum += element.price;
+        });
+        this.total = sum;
+    },
+    mudarFrase(element, txt, mudar){
+        for (let index = 0; index < element.length; index++) {
+            let x = element[index].description.replace(txt, mudar);
+            element[index].description = x;
+        }                    
+    },
+    apagar(id){
+        const index = this.dados.findIndex(item => item.id === id);
+        if(index !== -1){
+            this.dados.splice(index, 1);
+        }
+        this.calcularTotal();
+    },
+    imprimir(description){
+        alert(description);
+    }
+}});
+    </script>
+</body>
+</html>

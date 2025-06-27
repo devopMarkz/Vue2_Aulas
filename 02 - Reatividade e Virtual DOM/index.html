@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+
+        <p>Bermudas - R$ <span>{{ preco }}</span></p>
+        <button @click="adicionar">Adicionar</button>
+        <button @click="remover">Remover</button>
+        <span>{{total}}</span>
+        <p>Total: <span>{{ preco * total }}</span></p>
+
+        <ul>
+            <li v-for="x in elementos">{{x}}</li>
+        </ul>
+    </div>
+
+    <script>
+
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                preco: 69,
+                total: 0,
+                elementos: [
+                    "Marcos",
+                    "André",
+                    "Costa",
+                    "da",
+                    "Silva"
+                ]
+            },
+            methods: {
+                adicionar: function(){
+                    this.total++;
+                },
+                remover: function(){
+                    if(this.total <= 0){
+                        return;
+                    }
+                    this.total--;
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

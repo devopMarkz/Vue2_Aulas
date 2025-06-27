@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <template>
+            <header class="cabecalho">
+                <h2 class="logo">Logo</h2>
+
+                <nav class="menu">
+                    <ul class="lista-nav">
+                        <li class="item"><a href="#">Home</a></li>
+                        <li class="item"><a href="#">Sobre nós</a></li>
+                        <li class="item"><a href="#">Contato</a></li>
+                    </ul>
+                </nav>
+
+                <a href="#">
+                    <div class="carrinho">
+                    </div>
+                </a>
+            </header>
+        </template>
+
+        <template>
+            <section class="secao-cadastro">
+                <form class="formulario">
+                    <div>
+                        <label for="nome">Nome: </label>
+                        <input type="text" name="nome" id="nome" v-model="input_nome">
+                    </div>
+
+                    <div>
+                        <label for="nome">Preço: </label>
+                        <input type="number" name="preco" id="preco" v-model="input_preco">
+                    </div>
+                    
+                    <div>
+                        <label for="nome">Quantidade: </label>
+                        <input type="text" name="quantidade" id="quantidade" v-model="input_quantidade">
+                    </div>
+
+                    <button class="btn-cadastrar" @click.prevent="cadastrarProduto(input_nome, input_preco, input_quantidade)">Cadastrar</button>
+                </form>
+            </section>
+        </template>
+
+        <template>
+            <section class="secao-produtos">
+                <ul class="produtos">
+                    <li class="produto_item" v-for="item in produtos" :key="item.id">
+                        <div class="card">
+                            <p>Nome: {{item.nome}}</p>
+                            <p>Preço: R${{item.preco}}</p>
+                            <p>Quantidade em Estoque: {{item.quantidade}}</p>
+                            <button @click="adicionarAoCarrinho(item, 1)">Adicionar ao Carrinho</button>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </template>
+
+        <template>
+            <section class="secao-carrinho">
+                <ul>
+                    <li v-for="item in carrinho" :key="item.id">
+                        <h3>{{item.nome}}</h3>
+                        <h3>{{item.preco}}</h3>
+                        <h3>{{item.quantidade}}</h3>
+                    </li>
+                    <h1>Total: R${{totalCarrinho}}</h1>
+                </ul>
+            </section>
+
+        </template>
+    </div>
+
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                produtos: [],
+                input_nome: '',
+                input_preco: 0,
+                input_quantidade: 0,
+                carrinho: [],
+                total: 0
+            },
+            methods: {
+                cadastrarProduto(nome, preco, quantidade){
+                    this.produtos.push(new Produto(nome, preco, quantidade));
+                },
+                adicionarAoCarrinho(item, quantidade) {
+                    if(item.quantidade <= 0){
+                        alert("Produto sem estoque!");
+                        return;
+                    }
+                    this.carrinho.push(new Produto(item.nome, item.preco, quantidade));
+                    item.quantidade = item.quantidade - 1;
+                    alert(`Produto "${item.nome}" adicionado ao carrinho!`);
+                    this.calcularTotal();
+                }
+            },
+            computed: {
+                totalCarrinho() {
+                    return this.carrinho.reduce((soma, item) => {
+                    return soma + item.preco * item.quantidade;
+            }, 0);
+  }
+}
+        });
+
+        function Produto(nome, preco, quantidade){
+            this.nome = nome;
+            this.preco = +preco;
+            this.quantidade = quantidade;
+        }
+    </script>
+</body>
+</html>

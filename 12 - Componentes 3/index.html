@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        <p>{{var1}}</p>
+        <tempo-dia></tempo-dia>
+        <conversao-moeda></conversao-moeda>
+        <valor-mercado-apple></valor-mercado-apple>
+    </div>
+
+
+    <script type="module">
+        import TempoDia from './TempoDia.js'
+        import ConversaoMoeda from './ConversaoMoeda.js'
+
+        Vue.component('TempoDia', TempoDia);
+
+        const vm = new Vue({
+            el: "#app",
+            data: {
+                var1: "Hello World!"
+            },
+            components: {
+                ConversaoMoeda: ConversaoMoeda,
+                ValorMercadoApple: {
+                    name: 'ValorMercadoApple',
+                    data(){
+                        return {
+                            valor: 100.00
+                        }
+                    },
+                    template: `<p>Valor de mercado Apple: {{valor}}</p>`
+                }
+            }
+        });
+    </script>
+</body>
+</html>

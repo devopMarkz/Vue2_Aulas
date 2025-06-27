@@ -1,0 +1,81 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+ul li{
+    text-decoration: none;
+    list-style-type: none;
+}
+
+a{
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover{
+    color: red;
+    transition: .5s all;
+}
+
+.card{
+    background-color: rgb(136, 136, 160);
+    display: flex;
+    padding: 20px;
+    border-radius: 8px;
+    flex-direction: column;
+}
+
+.secao-produtos{
+    border: solid red 1px;
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.cabecalho{
+    border: solid rgb(0, 0, 0) 1px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.carrinho{
+    width: 28px;
+    height: 28px;
+    background: url('carrinho.svg') no-repeat center;
+    cursor: pointer;
+    background-color: grey;
+    border-radius: 4px;
+}
+
+.lista-nav{
+    display: flex;
+    gap: 30px;
+}
+
+.item{
+    cursor: pointer;
+}
+
+.formulario{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.btn-cadastrar{
+    width: 90px;
+}
+
+.produtos{
+    border: solid red 1px;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    flex-wrap: wrap;
+}
